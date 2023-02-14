@@ -1,5 +1,8 @@
 #!/usr/bin/python3
 """Define a FileStorage class"""
+import json
+import datetime
+import os
 
 
 class FileStorage:
@@ -24,19 +27,19 @@ class FileStorage:
         self.__objects[key] = obj
 
     def save(self):
-        with open(self__file_path, w) as f:
+        with open(self.__file_path, "w", encoding="utf-8") as f:
             obj_dict = {}
             for key, obj in self.__objects.items():
                 obj_dict[key] = obj.to_dict()
             json.dump(obj_dict, f)
     def reload(self):
         try:
-            with open(self.__file_path, r) as f:
+            with open(self.__file_path, "r", encoding="utf-8") as f:
                 obj_dict = json.load(f)
                 for key, value in obj_dict.items():
                     class_name, obj_id = key.split(".")
                     obj = eval(class_name)(**value)
-                    self.__object[key] = obj
+                    FileStorage.__objects[key] = obj
         except FileNotFoundError:
             pass
 
