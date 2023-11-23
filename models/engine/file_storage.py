@@ -10,6 +10,7 @@ class FileStorage:
     This class serializes instances to a JSON file
     and deserializes JSON file to instances
     """
+
     __file_path = "file.json"
     __objects = {}
 
@@ -32,6 +33,7 @@ class FileStorage:
             for key, obj in self.__objects.items():
                 obj_dict[key] = obj.to_dict()
             json.dump(obj_dict, f)
+
     def reload(self):
         try:
             with open(self.__file_path, "r", encoding="utf-8") as f:
@@ -42,4 +44,3 @@ class FileStorage:
                     FileStorage.__objects[key] = obj
         except FileNotFoundError:
             pass
-
